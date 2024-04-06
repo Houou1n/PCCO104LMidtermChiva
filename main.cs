@@ -2,54 +2,66 @@ using System;
 
 class Program
 {
-    public static void DisplayOscillateOutput(int fanPowerOutput)
+    static void Main(string[] args)
     {
-        for (int i = 1; i <= fanPowerOutput; i++)
-        {
-            Console.WriteLine(new string('~', Math.Min(fanPowerOutput, i)));
-        }
-        for (int i = fanPowerOutput - 1; i >= 1; i--)
-        {
-            Console.WriteLine(new string('~', Math.Min(fanPowerOutput, i)));
-        }
-    }
-    static void DisplaySteadyOutput(int fanPowerOutput)
-    {
-        for (int i = 1; i <= fanPowerOutput; i++)
-        {
-            Console.WriteLine(new string('~', fanPowerOutput));
-        }
-        for (int i = fanPowerOutput - 1; i >= 1; i--)
-        {
-            Console.WriteLine(new string('~', fanPowerOutput));
-        }
-    }
-    static void Main()
-    {
-        int baseFanPower = 10;
+        int fanspeed;
+        char oscillateoption;
+        int basefanpower = 10;
 
-        int fanSpeed;
         do
         {
-            Console.Write("Enter fan speed (1, 2, or 3): ");
-        } while (!int.TryParse(Console.ReadLine(), out fanSpeed) || fanSpeed < 1 || fanSpeed > 3);
+            Console.WriteLine("Enter fan speed (1, 2, or 3):");
+        } while (!int.TryParse(Console.ReadLine(), out fanspeed) || fanspeed < 1 || fanspeed > 3);
 
-        string oscillateOption;
         do
         {
-            Console.Write("Enter oscillate option (Y or N): ");
-            oscillateOption = Console.ReadLine().ToUpper();
-        } while (oscillateOption != "Y" && oscillateOption != "N");
+            Console.WriteLine("Do you want to oscillate? (Y/N):");
+        } while (!char.TryParse(Console.ReadLine(), out oscillateoption) || (oscillateoption != 'Y' && oscillateoption != 'N'));
 
-        int fanPowerOutput = baseFanPower * fanSpeed;
+        int fanpoweroutput = basefanpower * fanspeed;
 
-        if (oscillateOption == "Y")
+        if (oscillateoption == 'Y')
         {
-            DisplayOscillateOutput(fanPowerOutput);
+            OscillateOutput(basefanpower, fanspeed);
         }
         else
         {
-            DisplaySteadyOutput(fanPowerOutput);
+            SteadyOutput(fanpoweroutput);
+        }
+    }
+
+    static void OscillateOutput(int basefanpower, int fanspeed)
+    {
+        for (int i = 1; i <= basefanpower; i++)
+        {
+            for (int j = 1; j <= i; j++)
+            {
+                for (int x = 1; x <= fanspeed; x++)
+                {
+                    Console.Write("~");
+                }
+            }
+            Console.WriteLine();
+        }
+
+        for (int i = basefanpower; i >= 1; i--)
+        {
+            for (int j = 1; j <= i; j++)
+            {
+                for (int x = 1; x <= fanspeed; x++)
+                {
+                    Console.Write("~");
+                }
+            }
+            Console.WriteLine();
+        }
+    }
+
+    static void SteadyOutput(int fanpoweroutput)
+    {
+        for (int i = 1; i <= 10; i++)
+        {
+            Console.WriteLine(new string('~', fanpoweroutput));
         }
     }
 }
